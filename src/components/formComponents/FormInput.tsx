@@ -61,7 +61,7 @@ const FormInput = React.forwardRef<HTMLInputElement, IFormInputProps>(
           name={name}
           placeholder={placeholder}
           type={type}
-          value={value}
+          value={name === "requisitionTitle" || name === "noOfOpenings" ? (state.requisitionDetails[name]): state.jobDetails[name as keyof typeof state.jobDetails]}
           onChange={handleChange}
           onBlur={onBlur}
           // styles
