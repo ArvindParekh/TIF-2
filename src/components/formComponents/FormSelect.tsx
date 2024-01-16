@@ -35,10 +35,10 @@ const FormSelect: React.FC<IFormSelectProps> = ({
     setState: () => {},
   };
 
+  let propertyName = "";
   const handleChange = (value: any) => {
     const updatedValues = { ...state };
 
-    let propertyName = "";
 
     if (label) {
       propertyName =
@@ -81,7 +81,9 @@ const FormSelect: React.FC<IFormSelectProps> = ({
       <ReactSelect
         name={name}
         placeholder={placeholder}
-        value={options.find((item: { value: string }) => item?.value === value)}
+        // value={state.requisitionDetails[propertyName as keyof typeof state.requisitionDetails] || state.interviewSettings[propertyName]}
+        value={options.find((item: { value: string }) => item?.value === (name === "gender" || name === "urgency" ? state.requisitionDetails[name as keyof typeof state.requisitionDetails] : state.interviewSettings[name as keyof typeof state.interviewSettings]))}       
+        // value={options.find((item: { value: string }) => item?.value === state.requisitionDetails[name as keyof typeof state.requisitionDetails])}       
         onChange={handleChange}
         onBlur={handleBlur}
         options={options}
