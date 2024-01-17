@@ -1,6 +1,6 @@
 import { Button, Flex, Box } from "@chakra-ui/react";
 import React from "react";
-import { useFormik } from "formik";
+import { useFormik, Form, Formik, Field } from "formik";
 import * as Yup from "yup";
 
 import FormInput from "../../components/formComponents/FormInput";
@@ -50,48 +50,61 @@ const RequisitionDetailsForm: React.FC<{
   return (
     <Box width="100%" as="form" onSubmit={handleSubmit as any}>
       <Box width="100%">
-        <FormInput
-          label="Requisition Title"
-          placeholder="Enter requisition title"
-          name="requisitionTitle"
-          onChange={handleChange}
-          onBlur={handleBlur}
-          value={values?.requisitionTitle}
-          error={errors?.requisitionTitle}
-          touched={touched?.requisitionTitle}
-        />
-        <FormInput
-          label="Number of openings"
-          placeholder="Enter number of openings"
-          name="noOfOpenings"
-          onChange={handleChange}
-          onBlur={handleBlur}
-          value={values?.noOfOpenings}
-          error={errors?.noOfOpenings}
-          touched={touched?.noOfOpenings}
-        />
-        <FormSelect
-          label="Gender"
-          name="gender"
-          placeholder="Select gender"
-          options={genderOptions}
-          onChange={setFieldValue}
-          onBlur={setFieldTouched}
-          error={errors.gender}
-          touched={touched.gender}
-          value={values.gender}
-        />
-        <FormSelect
-          label="Urgency"
-          name="urgency"
-          placeholder="Select urgency"
-          options={urgencyOptions}
-          onChange={setFieldValue}
-          onBlur={setFieldTouched}
-          error={errors.urgency}
-          touched={touched.urgency}
-          value={values.urgency}
-        />
+        <Formik
+          initialValues={{ requisitionTitle: '', noOfOpenings: '', gender: '', urgency: '' }}
+          onSubmit={(values) => {
+            // handle form submission
+            handleScreen(1);
+          }}
+        >
+          {({ errors, touched }) => (
+            <Form>
+              <Field name="requisitionTitle">
+                {({ field }) => (
+                  <FormInput
+                    label="Requisition Title"
+                    placeholder="Enter requisition title"
+                    {...field}
+                    error={errors.requisitionTitle && touched.requisitionTitle ? errors.requisitionTitle : null}
+                  />
+                )}
+              </Field>
+              <Field name="noOfOpenings">
+                {({ field }) => (
+                  <FormInput
+                    label="Number of openings"
+                    placeholder="Enter number of openings"
+                    {...field}
+                    error={errors.noOfOpenings && touched.noOfOpenings ? errors.noOfOpenings : null}
+                  />
+                )}
+              </Field>
+              <Field name="gender">
+                {({ field }) => (
+                  <FormSelect
+                    label="Gender"
+                    placeholder="Select gender"
+                    options={genderOptions}
+                    {...field}
+                    error={errors.gender && touched.gender ? errors.gender : null}
+                  />
+                )}
+              </Field>
+              <Field name="urgency">
+                {({ field }) => (
+                  <FormSelect
+                    label="Urgency"
+                    placeholder="Select urgency"
+                    options={urgencyOptions}
+                    {...field}
+                    error={errors.urgency && touched.urgency ? errors.urgency : null}
+                  />
+                )}
+              </Field>
+              <button type="submit">Submit</button>
+            </Form>
+          )}
+        </Formik>
         <Flex w="100%" justify="flex-end" mt="4rem">
           {/* <Button colorScheme="red" onClick={handleNext} type="submit"> */}
           <Button colorScheme="red" type="submit">
